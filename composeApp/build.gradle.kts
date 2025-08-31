@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     jvm()
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -20,6 +20,12 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+            implementation(libs.filekit.coil)
+            implementation(libs.lucide.icons)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -30,7 +36,6 @@ kotlin {
         }
     }
 }
-
 
 compose.desktop {
     application {
