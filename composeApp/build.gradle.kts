@@ -26,6 +26,10 @@ kotlin {
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.filekit.coil)
             implementation(libs.lucide.icons)
+
+            implementation(libs.multiplatform.markdown.renderer)
+            implementation(libs.multiplatform.markdown.renderer.m3)
+            implementation(libs.multiplatform.markdown.renderer.code)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -44,7 +48,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.amarildo.knot"
-            packageVersion = "1.0.0"
+            packageVersion = "1.0.1"
         }
     }
 }
