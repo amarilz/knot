@@ -3,6 +3,7 @@ package com.amarildo.knot.view
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -59,6 +60,12 @@ import com.composables.icons.lucide.Delete
 import com.composables.icons.lucide.Info
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
+import com.mikepenz.markdown.compose.components.markdownComponents
+import com.mikepenz.markdown.compose.elements.MarkdownHighlightedCodeBlock
+import com.mikepenz.markdown.compose.elements.MarkdownHighlightedCodeFence
+import com.mikepenz.markdown.m3.Markdown
+import dev.snipme.highlights.Highlights
+import dev.snipme.highlights.model.SyntaxThemes
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -275,16 +282,16 @@ fun SearchResults(
 
 @Composable
 fun ExpandableInformationCard(information: Information) {
-    var expandedState by remember { mutableStateOf(false) }
-    val maxLines = if (expandedState) Int.MAX_VALUE else 3
-    val textOverflow = if (expandedState) TextOverflow.Clip else TextOverflow.Ellipsis
+    var isCardClicked by remember { mutableStateOf(false) }
+    val maxLines = if (isCardClicked) Int.MAX_VALUE else 3
+    val textOverflow = if (isCardClicked) TextOverflow.Clip else TextOverflow.Ellipsis
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .animateContentSize()
             .clickable(
-                onClick = { expandedState = !expandedState },
+                onClick = { isCardClicked = !isCardClicked },
             ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -307,13 +314,41 @@ fun ExpandableInformationCard(information: Information) {
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
-                Text(
-                    text = information.value,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = maxLines,
-                    overflow = textOverflow,
-                )
+
+                if (isCardClicked) {
+                    val isDarkTheme = isSystemInDarkTheme()
+                    val highlightsBuilder = remember(isDarkTheme) {
+                        Highlights.Builder().theme(SyntaxThemes.atom(darkMode = isDarkTheme))
+                    }
+
+                    Markdown(
+                        content = information.value.trimIndent(),
+                        components = markdownComponents(
+                            codeBlock = {
+                                MarkdownHighlightedCodeBlock(
+                                    content = it.content,
+                                    node = it.node,
+                                    highlights = highlightsBuilder,
+                                )
+                            },
+                            codeFence = {
+                                MarkdownHighlightedCodeFence(
+                                    content = it.content,
+                                    node = it.node,
+                                    highlights = highlightsBuilder,
+                                )
+                            },
+                        ),
+                    )
+                } else {
+                    Text(
+                        text = information.value,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = maxLines,
+                        overflow = textOverflow,
+                    )
+                }
             }
             Badge {
                 Text(

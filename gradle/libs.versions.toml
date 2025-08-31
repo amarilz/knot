@@ -7,6 +7,7 @@ kotlin = "2.2.0"
 kotlinx-coroutines = "1.10.2"
 file-kit = "0.10.0"
 lucide-icons = "1.0.0"
+markdown-renderer = "0.35.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -20,6 +21,9 @@ filekit-dialogs ={ module = "io.github.vinceglb:filekit-dialogs", version.ref = 
 filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "file-kit"}
 filekit-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "file-kit"}
 lucide-icons = { module = "com.composables:icons-lucide", version.ref = "lucide-icons"}
+multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "markdown-renderer"}
+multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdown-renderer"}
+multiplatform-markdown-renderer-code = { module = "com.mikepenz:multiplatform-markdown-renderer-code", version.ref = "markdown-renderer"}
 
 [plugins]
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
